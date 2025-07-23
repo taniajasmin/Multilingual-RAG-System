@@ -2,6 +2,10 @@ langchain==0.2.16
 langchain-community==0.2.16
 langchain-google-genai==1.0.10
 langchain-huggingface==0.0.3
+langchain-openai>=0.3.28  # Added for OpenAI integration
+langchain-core<0.3.0,>=0.2.38  # Compatible with langchain 0.2.16
+langchain-text-splitters<0.3.0,>=0.2.4  # Compatible with langchain 0.2.16
+langsmith<0.2.0,>=0.1.17  # Compatible with langchain 0.2.16
 faiss-cpu==1.8.0
 PyPDF2==3.0.1
 fastapi==0.111.0
@@ -10,3 +14,10 @@ nltk==3.8.1
 scikit-learn==1.5.0
 google-generativeai==0.7.2
 python-dotenv==1.0.1
+pytesseract>=0.3.10  # For OCR in ocr_pdf.py
+pdf2image>=1.16.0  # For OCR in ocr_pdf.py
+Pillow>=10.0.0  # For OCR image handling
+sentence-transformers>=2.2.0  # For embeddings in RAG
+huggingface-hub>=0.33.4  # For embedding model access
+numpy>=1.26.2  # Required by scikit-learn and sentence-transformers
+openai<2.0.0,>=1.97.1  # For OpenAI API
