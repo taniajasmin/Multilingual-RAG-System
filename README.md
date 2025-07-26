@@ -71,30 +71,39 @@ Query: "What is Anupam's age?"
 
 
 ## API Documentation
-/ (GET): Shows a query form.
-/query (POST):
-Params: query (string), language (e.g., "bn", "en").
-Response: HTML with answer, scores, and snippets.
-/reinit (GET): Re-initializes RAG chain, returns JSON {"message": "RAG chain re-initialized"}.
-Evaluation Matrix
-Groundedness Score: Support from documents (0-1, cosine similarity mean).
-Relevance Score: Best query-chunk match (0-1, cosine similarity max).
-Must Answer Questions
-Text Extraction Method:
-Used pytesseract and pdf2image in ocr_pdf.py with Poppler for scanned PDFs.
-Faced formatting issues (e.g., broken text), fixed with regex preprocessing.
-Chunking Strategy:
-RecursiveCharacterTextSplitter (size 1500, overlap 300).
-Works well for semantic retrieval with fragmented text, though larger chunks could help.
-Embedding Model:
-sentence-transformers/paraphrase-multilingual-mpnet-base-v2.
-Chosen for Bangla support and semantic accuracy, captures meaning via contextual vectors.
-Query Comparison:
-Cosine similarity with FAISS storage.
-Chosen for robustness and speed in high-dimensional spaces.
-Meaningful Comparison:
-Embeddings map query and chunks to a shared space; custom prompt aids inference.
-Vague queries return "দুঃখিত, এই প্রশ্নের উত্তর নির্ধারণ করা সম্ভব নয়।"
-Relevance of Results:
-Relevant for factual queries, not interpretive ones.
-Improvements: Larger chunks, xlm-roberta-base embedding, or more document context.
+- / (GET): Shows a query form.
+-  **/query (POST)**:
+  - Params: query (string), language (e.g., "bn", "en").
+  - Response: HTML with answer, scores, and snippets.
+- /reinit (GET): Re-initializes RAG chain, returns JSON {"message": "RAG chain re-initialized"}.
+
+
+## Evaluation Matrix
+- **Groundedness Score**: Measures how well the answer is supported by source documents (0 to 1, based on the mean of cosine similarity).
+- **Relevance Score**: Indicates the best match between the query and document chunks (0 to 1, based on the maximum cosine similarity).
+
+## Must Answer Questions
+
+- **Text Extraction Method**:
+  - Used `pytesseract` and `pdf2image` in `ocr_pdf.py` with Poppler to process scanned PDFs.
+  - Faced formatting issues (e.g., broken text, mixed numerals), mitigated with regex preprocessing in the RAG app.
+
+- **Chunking Strategy**:
+  - Employed `RecursiveCharacterTextSplitter` with a chunk size of 1500 and an overlap of 300.
+  - Works well for semantic retrieval with fragmented text, though larger chunks might improve narrative coherence.
+
+- **Embedding Model**:
+  - Utilized `sentence-transformers/paraphrase-multilingual-mpnet-base-v2`.
+  - Chosen for its multilingual support (including Bangla) and strong semantic accuracy, capturing meaning through contextual word relationships.
+
+- **Query Comparison**:
+  - Applied cosine similarity with FAISS for storage and retrieval.
+  - Selected for its robustness and speed in handling high-dimensional vector spaces.
+
+- **Meaningful Comparison**:
+  - Embeddings map both query and chunks to a shared semantic space; a custom prompt enhances inference when explicit answers are lacking.
+  - Vague or context-missing queries result in "দুঃখিত, এই প্রশ্নের উত্তর নির্ধারণ করা সম্ভব নয়।"
+
+- **Relevance of Results**:
+  - Results are relevant for factual queries (e.g., "কাকে অনুপমের ভাগ্য দেবতা বলে উল্লেখ করা হয়েছে?") but not for interpretive ones.
+  - Potential improvements include larger chunk sizes, switching to `xlm-roberta-base` for better Bangla support, or adding more contextual document content.
