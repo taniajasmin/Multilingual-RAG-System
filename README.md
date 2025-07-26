@@ -37,7 +37,7 @@ A Retrieval-Augmented Generation (RAG) system to answer Bangla and English quest
      python ocr_pdf.py
   6. Run the app:
      ```bash
-     uvicorn app_v4:app --reload --port 8001
+     uvicorn app_gpt:app --reload --port 8001
      ```
   7. Visit http://localhost:8001/ in your browser.
 
